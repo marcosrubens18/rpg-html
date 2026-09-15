@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Crônicas de Valdora</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="game">
+
+  <section id="screen-menu" class="screen active">
+    <h1 class="title">Crônicas de Valdora</h1>
+    <p class="subtitle">Um RPG de turnos em uma cidade de fantasia</p>
+    <div class="menu-actions">
+      <button id="btn-new-game">Novo Jogo</button>
+      <button id="btn-continue">Continuar</button>
+    </div>
+  </section>
+
+  <section id="screen-exploration" class="screen">
+    <header class="hud">
+      <div class="hud-player">
+        <span id="hud-name"></span>
+        <span id="hud-level"></span>
+      </div>
+      <div class="hud-bars">
+        <div class="bar hp"><div class="bar-fill" id="hud-hp-fill"></div><span id="hud-hp-text"></span></div>
+        <div class="bar mp"><div class="bar-fill" id="hud-mp-fill"></div><span id="hud-mp-text"></span></div>
+      </div>
+    </header>
+
+    <h2 id="location-name"></h2>
+    <p id="location-description"></p>
+
+    <div id="location-actions" class="location-actions"></div>
+
+    <div id="exploration-log" class="log"></div>
+  </section>
+
+  <section id="screen-combat" class="screen">
+    <div class="combat-field">
+      <div class="combatant enemy">
+        <h3 id="enemy-name"></h3>
+        <div class="bar hp"><div class="bar-fill" id="enemy-hp-fill"></div><span id="enemy-hp-text"></span></div>
+      </div>
+      <div class="combatant player">
+        <h3 id="combat-player-name"></h3>
+        <div class="bar hp"><div class="bar-fill" id="combat-hp-fill"></div><span id="combat-hp-text"></span></div>
+        <div class="bar mp"><div class="bar-fill" id="combat-mp-fill"></div><span id="combat-mp-text"></span></div>
+      </div>
+    </div>
+
+    <div id="combat-log" class="log"></div>
+
+    <div class="combat-actions">
+      <button id="btn-attack">Atacar</button>
+      <button id="btn-skill">Habilidade</button>
+      <button id="btn-item">Item</button>
+      <button id="btn-flee">Fugir</button>
+    </div>
+  </section>
+
+</div>
+
+<script src="js/data/locations.js"></script>
+<script src="js/data/enemies.js"></script>
+<script src="js/data/items.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/player.js"></script>
+<script src="js/combat.js"></script>
+<script src="js/exploration.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

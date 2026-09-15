@@ -1,7 +1,11 @@
+const fs = require('fs');
 const path = require('path');
 const { DatabaseSync } = require('node:sqlite');
 
-const DB_PATH = path.join(__dirname, '..', 'data', 'valdora.db');
+const DATA_DIR = path.join(__dirname, '..', 'data');
+const DB_PATH = path.join(DATA_DIR, 'valdora.db');
+
+fs.mkdirSync(DATA_DIR, { recursive: true });
 const db = new DatabaseSync(DB_PATH);
 
 db.exec(`

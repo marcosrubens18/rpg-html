@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Crônicas de Valdora</title>
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+<div id="ember-layer" aria-hidden="true"></div>
+
+<button id="btn-music-toggle" class="music-toggle" title="Música de fundo">🔈</button>
+<audio id="bgm" loop preload="none"></audio>
+
+<div id="toast-container"></div>
+
+<div id="game">
+
+  <!-- AUTENTICAÇÃO -->
+  <section id="screen-auth" class="screen active">
+    <h1 class="title glow">Crônicas de Valdora</h1>
+    <p class="subtitle">Um RPG de turnos em uma cidade de fantasia</p>
+
+    <div class="auth-card fade-in">
+      <div class="auth-tabs">
+        <button id="tab-login" class="auth-tab active">Entrar</button>
+        <button id="tab-register" class="auth-tab">Criar Conta</button>
+      </div>
+
+      <form id="form-login" class="auth-form">
+        <label>Usuário<input type="text" id="login-username" required autocomplete="username"></label>
+        <label>Senha<input type="password" id="login-password" required autocomplete="current-password"></label>
+        <button type="submit" class="btn-primary">Entrar</button>
+      </form>
+
+      <form id="form-register" class="auth-form hidden">
+        <label>Usuário<input type="text" id="register-username" required minlength="3"></label>
+        <label>Senha<input type="password" id="register-password" required minlength="6"></label>
+        <label>Código de Admin (opcional)<input type="text" id="register-admin-code" placeholder="deixe em branco se não tiver"></label>
+        <button type="submit" class="btn-primary">Criar Conta</button>
+      </form>
+
+      <p id="auth-error" class="error-text"></p>
+    </div>
+  </section>
+
+  <!-- CRIAÇÃO DE PERSONAGEM -->
+  <section id="screen-character-creation" class="screen">
+    <h1 class="title glow">Forje seu Destino</h1>
+
+    <form id="form-character" class="auth-card fade-in">
+      <label>Nome do personagem<input type="text" id="char-name" maxlength="24" required></label>
+      <label>Idade<input type="number" id="char-age" min="16" max="80" value="25" required></label>
+      <label>Sexo
+        <select id="char-gender">
+          <option value="masculino">Masculino</option>
+          <option value="feminino">Feminino</option>
+          <option value="outro">Outro</option>
+        </select>
+      </label>
+      <button type="submit" class="btn-primary btn-forge">⚔️ Forjar Destino</button>
+    </form>
+
+    <div id="reveal-sequence" class="reveal-sequence hidden">
+      <div class="reveal-card" id="reveal-race"><span class="reveal-label">Raça</span><span class="reveal-value">?</span></div>
+      <div class="reveal-card" id="reveal-class"><span class="reveal-label">Classe</span><span class="reveal-value">?</span></div>
+      <div class="reveal-card" id="reveal-destiny"><span class="reveal-label">Destino</span><span class="reveal-value">?</span></div>
+    </div>
+
+    <div id="character-result" class="auth-card fade-in hidden">
+      <h2 id="result-title"></h2>
+      <div id="result-stats" class="stat-grid"></div>
+      <p id="result-history" class="history-text"></p>
+      <button id="btn-start-journey" class="btn-primary">Começar Jornada</button>
+    </div>
+  </section>
+
+  <!-- LOBBY -->
+  <section id="screen-lobby" class="screen">
+    <nav class="lobby-nav">
+      <span class="brand">Valdora</span>
+      <button id="nav-perfil" class="nav-btn">Perfil</button>
+      <button id="nav-eventos" class="nav-btn">Eventos</button>
+      <button id="nav-admin" class="nav-btn hidden">Admin</button>
+      <div class="hud-mini">
+        <span id="hud-mini-name"></span>
+        <div class="bar hp small"><div class="bar-fill" id="hud-mini-hp-fill"></div></div>
+        <div class="bar mp small"><div class="bar-fill" id="hud-mini-mp-fill"></div></div>
+        <span id="hud-mini-gold">0 🪙</span>
+      </div>
+      <button id="nav-logout" class="nav-btn logout">Sair</button>
+    </nav>
+
+    <main id="lobby-main">
+      <div id="city-map" class="city-map">
+        <h2 id="location-title"></h2>
+        <p id="location-description"></p>
+        <div id="location-grid" class="location-grid"></div>
+      </div>
+
+      <div id="location-panel" class="location-panel hidden"></div>
+    </main>
+
+    <div id="lobby-log" class="log"></div>
+  </section>
+
+  <!-- COMBATE -->
+  <section id="screen-combat" class="screen">
+    <div class="combat-field">
+      <div class="combatant enemy" id="enemy-block">
+        <h3 id="enemy-name"></h3>
+        <div class="bar hp"><div class="bar-fill" id="enemy-hp-fill"></div><span id="enemy-hp-text"></span></div>
+      </div>
+      <div class="combatant player" id="player-combat-block">
+        <h3 id="combat-player-name"></h3>
+        <div class="bar hp"><div class="bar-fill" id="combat-hp-fill"></div><span id="combat-hp-text"></span></div>
+        <div class="bar mp"><div class="bar-fill" id="combat-mp-fill"></div><span id="combat-mp-text"></span></div>
+      </div>
+    </div>
+
+    <div id="combat-log" class="log"></div>
+
+    <div class="combat-actions">
+      <button id="btn-attack">Atacar</button>
+      <button id="btn-skill">Habilidade</button>
+      <button id="btn-item">Poção de Vida</button>
+      <button id="btn-flee">Fugir</button>
+    </div>
+  </section>
+
+</div>
+
+<!-- MODAIS -->
+<div id="modal-overlay" class="modal-overlay hidden">
+  <div class="modal-box" id="modal-box"></div>
+</div>
+
+<script src="js/api.js"></script>
+<script src="js/state.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/screens/auth.js"></script>
+<script src="js/screens/characterCreation.js"></script>
+<script src="js/screens/profile.js"></script>
+<script src="js/screens/events.js"></script>
+<script src="js/screens/admin.js"></script>
+<script src="js/screens/locations.js"></script>
+<script src="js/screens/lobby.js"></script>
+<script src="js/screens/combat.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
